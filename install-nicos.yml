@@ -1,0 +1,120 @@
+---
+
+- hosts: nicos
+  vars:
+    nicos_repo: "https://forge.frm2.tum.de/review/frm2/nicos/nicos-core"
+    nicos_version: "HEAD"
+    nicos_src_dir: "/opt/nicos-core"
+    nicos_inst_dir: "/opt/nicos"
+    nicos_data_dir: "/opt/nicos-data"
+    nicos_facility: "nicos_demo"
+    nicos_instrument: "demo"
+
+  tasks:
+    - name: make sure nicos is checked out
+      become: yes
+      git:
+        repo: '{{ nicos_repo }}'
+        dest: '{{ nicos_src_dir }}'
+        version: '{{ nicos_version }}'
+        force: yes
+
+    - name: be sure required packages are installed
+      become: yes
+      yum:
+         name: '{{item}}'
+         state: latest
+      with_items:
+         - python
+         - python-devel
+         - python-setuptools
+         - python-pip
+         - sip
+         - sip-devel
+         - qt 
+         - qt-devel
+         - PyQt4
+
+    - name: install python packages
+      become : yes
+      pip:
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - pip
+        - numpy
+        - kafka-python
+        - pyepics   
+ 
+    - name: remove some requirements
+      become: yes
+      lineinfile:
+        destfile: '{{ nicos_src_dir }}/requirements.txt'
+        regexp: '^(.*){{item}}(.*)'
+        line: '# {{item}}'
+      with_items:
+        - nicoslivewidget
+        - mysql-connector-python-rf
+
+    - name: install python requirements
+      become: yes
+      pip:
+        state: latest
+        requirements: '{{ nicos_src_dir }}/requirements.txt'
+
+    - name: make sure that the group nicos exists
+      become: yes 
+      group:
+        name: nicos
+        state: present   
+ 
+    - name: make sure that the user nicos exists
+      become: yes
+      user:
+        name: nicos
+        uid: 1040
+        group: nicos
+
+    - name: install nicos
+      become: yes
+      make:
+        chdir: '{{ nicos_src_dir }}'
+        target: install
+        params:
+          PREFIX: '{{ nicos_inst_dir}}'
+
+    - name: make sure that the data directory exists
+      become: yes
+      file:
+        path: '{{ nicos_data_dir }}'
+        state: directory
+        owner: nicos
+        group: nicos
+        mode: 0755     
+
+    - name: copy the nicos.conf file
+      become: yes
+      template:
+        src: nicos.conf.j2
+        dest: '{{ nicos_inst_dir }}/nicos.conf'
+        force: yes
+
+    - name: make sure that user nicos owns the nicos installation dir
+      become: yes
+      file:
+        path: '{{ nicos_inst_dir }}'
+        owner: nicos
+        group: nicos
+       
+    - name: make sure that the service file is installed
+      become: yes
+      file:
+        src: '{{ nicos_inst_dir }}/etc/nicos-system'
+        dest: '/etc/init.d/nicos-system'
+        state: link
+
+    - name: Add nicos-system service
+      become: yes
+      action: command chkconfig --add {{ item }}
+      with_items:
+        - nicos-system

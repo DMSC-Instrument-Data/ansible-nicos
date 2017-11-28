@@ -1,0 +1,3 @@
+- hosts: nicos
+  tasks:
+    - include: nicos_services.yml new_state=restart

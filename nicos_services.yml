@@ -1,0 +1,3 @@
+- name: change nicos services state
+  become: yes
+  action: command /etc/init.d/nicos-system "{{new_state}}" -a
