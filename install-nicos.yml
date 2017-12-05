@@ -118,3 +118,11 @@
       action: command chkconfig --add {{ item }}
       with_items:
         - nicos-system
+
+    - name: create a link for nicos-gui
+      become: yes
+      file:
+        src: "{{ nicos_inst_dir }}/bin/nicos-gui"
+        dest: /usr/local/bin/nicos-gui
+        state: link
+        force: yes
