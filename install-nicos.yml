@@ -4,6 +4,7 @@
   vars:
     nicos_repo: "https://forge.frm2.tum.de/review/frm2/nicos/nicos-core"
     nicos_version: "HEAD"
+    nicos_refspec: "HEAD"
     nicos_src_dir: "/opt/nicos-core"
     nicos_inst_dir: "/opt/nicos"
     nicos_data_dir: "/opt/nicos-data"
@@ -17,6 +18,7 @@
         repo: '{{ nicos_repo }}'
         dest: '{{ nicos_src_dir }}'
         version: '{{ nicos_version }}'
+        refspec: '{{ nicos_refspec }}'
         force: yes
 
     - name: be sure required packages are installed
