@@ -12,6 +12,12 @@
     nicos_instrument: "demo"
 
   tasks:
+    - name: cleanup the current src dir
+      become: yes
+      file:
+        path: '{{nicos_src_dir}}'
+        state: absent
+
     - name: make sure nicos is checked out
       become: yes
       git:
