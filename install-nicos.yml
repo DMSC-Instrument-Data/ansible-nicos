@@ -119,6 +119,13 @@
       with_items:
         - nicos-system
 
+    - name: copy the nicos env file
+      become: yes
+      copy:
+        src: nicos_env.sh
+        dest: /etc/profile.d/nicos_env.sh
+        force: yes
+
     - name: create a link for nicos-gui
       become: yes
       file:

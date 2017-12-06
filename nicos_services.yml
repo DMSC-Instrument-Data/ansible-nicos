@@ -1,3 +1,8 @@
 - name: change nicos services state
   become: yes
-  action: command /etc/init.d/nicos-system "{{new_state}}" -a
+  become_user: nicos
+  shell: "/etc/init.d/nicos-system {{new_state}} -a"
+  environment:
+    PYEPICS_LIBCA: "{{ansible_env.EPICS_BASE}}/lib/{{ansible_env.EPICS_HOST_ARCH}}/libca.so"
+  
+    
