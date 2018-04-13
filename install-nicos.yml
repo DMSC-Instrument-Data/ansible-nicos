@@ -56,7 +56,7 @@
         - kafka-python
         - pyepics
         - flatbuffers
-      extra_args: "--proxy={{ http_proxy }}"
+      extra_args: "--upgrade --proxy={{ http_proxy }}"
 
     - name: remove some requirements
       become: yes
