@@ -49,6 +49,7 @@
       pip:
         name: "{{item}}"
         state: forcereinstall
+        extra_args: "--proxy={{ http_proxy }}"
       with_items:
         - pip
         - setuptools
@@ -56,10 +57,6 @@
         - kafka-python
         - pyepics
         - flatbuffers
-      extra_args: "--proxy={{ http_proxy }}"
-      environment:
-        http_proxy: "{{ http_proxy }}"
-        https_proxy: "{{ http_proxy }}"
 
     - name: remove some requirements
       become: yes
@@ -76,10 +73,7 @@
       pip:
         state: latest
         requirements: '{{ nicos_src_dir }}/requirements.txt'
-      extra_args: "--proxy={{ http_proxy }}"
-      environment:
-        http_proxy: "{{ http_proxy }}"
-        https_proxy: "{{ http_proxy }}"
+        extra_args: "--proxy={{ http_proxy }}"
 
     - name: make sure that the group nicos exists
       become: yes
