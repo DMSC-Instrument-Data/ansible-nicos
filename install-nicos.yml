@@ -51,6 +51,7 @@
         state: latest
       with_items:
         - pip
+        - setuptools
         - numpy
         - kafka-python
         - pyepics
