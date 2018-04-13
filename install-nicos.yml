@@ -2,6 +2,7 @@
 
 - hosts: nicos
   vars:
+    http_proxy: ""
     nicos_repo: "https://forge.frm2.tum.de/review/frm2/nicos/nicos-core"
     nicos_version: "HEAD"
     nicos_refspec: "HEAD"
@@ -39,7 +40,7 @@
          - python-pip
          - sip
          - sip-devel
-         - qt 
+         - qt
          - qt-devel
          - PyQt4
 
@@ -53,8 +54,9 @@
         - numpy
         - kafka-python
         - pyepics
-        - flatbuffers   
- 
+        - flatbuffers
+      extra_args: "--proxy={{ http_proxy }}"
+
     - name: remove some requirements
       become: yes
       lineinfile:
@@ -72,11 +74,11 @@
         requirements: '{{ nicos_src_dir }}/requirements.txt'
 
     - name: make sure that the group nicos exists
-      become: yes 
+      become: yes
       group:
         name: nicos
-        state: present   
- 
+        state: present
+
     - name: make sure that the user nicos exists
       become: yes
       user:
@@ -99,7 +101,7 @@
         state: directory
         owner: nicos
         group: nicos
-        mode: 0755     
+        mode: 0755
 
     - name: copy the nicos.conf file
       become: yes
@@ -114,7 +116,7 @@
         path: '{{ nicos_inst_dir }}'
         owner: nicos
         group: nicos
-       
+
     - name: make sure that the service file is installed
       become: yes
       file:
