@@ -72,6 +72,7 @@
       pip:
         state: latest
         requirements: '{{ nicos_src_dir }}/requirements.txt'
+      extra_args: "--proxy={{ http_proxy }}"
 
     - name: make sure that the group nicos exists
       become: yes
