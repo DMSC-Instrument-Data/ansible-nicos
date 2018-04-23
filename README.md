@@ -41,8 +41,3 @@ ansible-playbook -i hosts start_nicos_services.yml    # Start services
 ansible-playbook -i hosts stop_nicos_services.yml    # Stop services
 ansible-playbook -i hosts restart_nicos_services.yml    # Restart services
 ```
-ansi
-
-
-
-
