@@ -1,3 +1,4 @@
+# Based on informationfrom https://forge.frm2.tum.de/nicos/doc/nicos-master/install/
 ---
 
 - name: be sure required packages are installed
@@ -39,3 +40,17 @@
     - libqwt5-qt4-dev
     - libtiff5-dev
     - libcfitsio3-dev
+
+- name: install python packages
+  become : yes
+  pip:
+    name: "{{item}}"
+    state: forcereinstall
+    extra_args: "--proxy={{ http_proxy }}"
+  with_items:
+    - pip
+    - setuptools
+    - numpy
+    - kafka-python
+    - pyepics
+    - flatbuffers

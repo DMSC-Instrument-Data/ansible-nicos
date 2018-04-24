@@ -1,4 +1,3 @@
-# Based on informationfrom https://forge.frm2.tum.de/nicos/doc/nicos-master/install/
 ---
 
 - hosts: nicos
@@ -30,37 +29,6 @@
         version: '{{ nicos_version }}'
         refspec: '{{ nicos_refspec }}'
         force: yes
-
-    - name: install python packages
-      become : yes
-      pip:
-        name: "{{item}}"
-        state: forcereinstall
-        extra_args: "--proxy={{ http_proxy }}"
-      with_items:
-        - pip
-        - setuptools
-        - numpy
-        - kafka-python
-        - pyepics
-        - flatbuffers
-
-    - name: remove some requirements
-      become: yes
-      lineinfile:
-        destfile: '{{ nicos_src_dir }}/requirements.txt'
-        regexp: '^(.*){{item}}(.*)'
-        line: '# {{item}}'
-      with_items:
-        - nicoslivewidget
-        - mysql-connector-python-rf
-
-    - name: install python requirements
-      become: yes
-      pip:
-        state: latest
-        requirements: '{{ nicos_src_dir }}/requirements.txt'
-        extra_args: "--proxy={{ http_proxy }}"
 
     - name: make sure that the group nicos exists
       become: yes
@@ -115,7 +83,7 @@
 
     - name: Add nicos-system service
       become: yes
-      action: update-rc.d {{ item }} defaults
+      command: update-rc.d {{ item }} defaults
       with_items:
         - nicos-system
 
