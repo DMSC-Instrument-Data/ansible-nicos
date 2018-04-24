@@ -1,0 +1,173 @@
+# Based on informationfrom https://forge.frm2.tum.de/nicos/doc/nicos-master/install/
+---
+
+- hosts: nicos
+  vars:
+    http_proxy: ""
+    nicos_repo: "https://forge.frm2.tum.de/review/frm2/nicos/nicos-core"
+    nicos_version: "HEAD"
+    nicos_refspec: "HEAD"
+    nicos_src_dir: "/opt/nicos-core"
+    nicos_inst_dir: "/opt/nicos"
+    nicos_data_dir: "/opt/nicos-data"
+    nicos_facility: "nicos_demo"
+    nicos_instrument: "demo"
+
+  tasks:
+    - name: cleanup the current src dir
+      become: yes
+      file:
+        path: '{{nicos_src_dir}}'
+        state: absent
+
+    - name: make sure nicos is checked out
+      become: yes
+      git:
+        repo: '{{ nicos_repo }}'
+        dest: '{{ nicos_src_dir }}'
+        version: '{{ nicos_version }}'
+        refspec: '{{ nicos_refspec }}'
+        force: yes
+
+    - name: be sure required packages are installed
+      become: yes
+      yum:
+         name: '{{item}}'
+         state: latest
+      with_items:
+         - python
+         - python-dev
+         - python-pip
+         - python-setuptools
+         - python-zmq
+         - python-numpy
+         - python-scipy
+         - python-psutil
+         - python-rsa
+         - gnuplot
+         - python-mysql.connector
+         - python-docutils
+         - python-serial
+         - python-matplotlib
+         - python-pyfits
+         - python-lxml
+         - python-ldap
+         - python-crypto
+         - python-keyring
+         - python-keyrings.alt
+         - python-astropy
+         - python-qt4
+         - python-qscintilla2
+         - python-sip-dev
+         - python-qt4-dev
+         - python-pytest
+         - python-pytest-cov
+         - python-mock
+         - python-coverage
+         - python-sphinx
+         - python-libqwt5-qt4-dev
+         - python-libtiff5-dev
+         - python-libcfitsio3-dev
+
+    - name: install python packages
+      become : yes
+      pip:
+        name: "{{item}}"
+        state: forcereinstall
+        extra_args: "--proxy={{ http_proxy }}"
+      with_items:
+        - pip
+        - setuptools
+        - numpy
+        - kafka-python
+        - pyepics
+        - flatbuffers
+
+    - name: remove some requirements
+      become: yes
+      lineinfile:
+        destfile: '{{ nicos_src_dir }}/requirements.txt'
+        regexp: '^(.*){{item}}(.*)'
+        line: '# {{item}}'
+      with_items:
+        - nicoslivewidget
+        - mysql-connector-python-rf
+
+    - name: install python requirements
+      become: yes
+      pip:
+        state: latest
+        requirements: '{{ nicos_src_dir }}/requirements.txt'
+        extra_args: "--proxy={{ http_proxy }}"
+
+    - name: make sure that the group nicos exists
+      become: yes
+      group:
+        name: nicos
+        state: present
+
+    - name: make sure that the user nicos exists
+      become: yes
+      user:
+        name: nicos
+        uid: 1040
+        group: nicos
+
+    - name: install nicos
+      become: yes
+      make:
+        chdir: '{{ nicos_src_dir }}'
+        target: install
+        params:
+          PREFIX: '{{ nicos_inst_dir}}'
+
+    - name: make sure that the data directory exists
+      become: yes
+      file:
+        path: '{{ nicos_data_dir }}'
+        state: directory
+        owner: nicos
+        group: nicos
+        mode: 0755
+
+    - name: copy the nicos.conf file
+      become: yes
+      template:
+        src: nicos.conf.j2
+        dest: '{{ nicos_inst_dir }}/nicos.conf'
+        force: yes
+
+    - name: make sure that user nicos owns the nicos installation dir
+      become: yes
+      file:
+        path: '{{ nicos_inst_dir }}'
+        owner: nicos
+        group: nicos
+
+    - name: make sure that the service file is installed
+      become: yes
+      file:
+        src: '{{ nicos_inst_dir }}/etc/nicos-system'
+        dest: '/etc/init.d/nicos-system'
+        state: link
+
+    - name: Add nicos-system service
+      become: yes
+      action: update-rc.d {{ item }} defaults
+      with_items:
+        - nicos-system
+
+    - name: copy the nicos env file
+      become: yes
+      copy:
+        src: nicos_env.sh
+        dest: /etc/profile.d/nicos_env.sh
+        force: yes
+
+    - name: create a link for nicos-gui
+      become: yes
+      file:
+        src: "{{ nicos_inst_dir }}/bin/nicos-gui"
+        dest: /usr/local/bin/nicos-gui
+        state: link
+        force: yes
