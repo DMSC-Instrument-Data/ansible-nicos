@@ -13,6 +13,8 @@
     nicos_instrument: "demo"
 
   tasks:
+    - include: "{{ ansible_os_family }}-packages.yml"
+
     - name: cleanup the current src dir
       become: yes
       file:
@@ -27,22 +29,6 @@
         version: '{{ nicos_version }}'
         refspec: '{{ nicos_refspec }}'
         force: yes
-
-    - name: be sure required packages are installed
-      become: yes
-      yum:
-         name: '{{item}}'
-         state: latest
-      with_items:
-         - python
-         - python-devel
-         - python-setuptools
-         - python-pip
-         - sip
-         - sip-devel
-         - qt
-         - qt-devel
-         - PyQt4
 
     - name: install python packages
       become : yes
