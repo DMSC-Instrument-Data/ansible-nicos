@@ -14,6 +14,8 @@
     nicos_instrument: "demo"
 
   tasks:
+    - include: "{{ ansible_os_family }}-packages.yml"
+
     - name: cleanup the current src dir
       become: yes
       file:
@@ -28,46 +30,6 @@
         version: '{{ nicos_version }}'
         refspec: '{{ nicos_refspec }}'
         force: yes
-
-    - name: be sure required packages are installed
-      become: yes
-      yum:
-         name: '{{item}}'
-         state: latest
-      with_items:
-         - python
-         - python-dev
-         - python-pip
-         - python-setuptools
-         - python-zmq
-         - python-numpy
-         - python-scipy
-         - python-psutil
-         - python-rsa
-         - gnuplot
-         - python-mysql.connector
-         - python-docutils
-         - python-serial
-         - python-matplotlib
-         - python-pyfits
-         - python-lxml
-         - python-ldap
-         - python-crypto
-         - python-keyring
-         - python-keyrings.alt
-         - python-astropy
-         - python-qt4
-         - python-qscintilla2
-         - python-sip-dev
-         - python-qt4-dev
-         - python-pytest
-         - python-pytest-cov
-         - python-mock
-         - python-coverage
-         - python-sphinx
-         - python-libqwt5-qt4-dev
-         - python-libtiff5-dev
-         - python-libcfitsio3-dev
 
     - name: install python packages
       become : yes

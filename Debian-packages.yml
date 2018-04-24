@@ -1,0 +1,41 @@
+---
+
+- name: be sure required packages are installed
+  become: yes
+  apt:
+    name: '{{item}}'
+    state: latest
+  with_items:
+    - python
+    - python-dev
+    - python-pip
+    - python-setuptools
+    - python-zmq
+    - python-numpy
+    - python-scipy
+    - python-psutil
+    - python-rsa
+    - gnuplot
+    - python-mysql.connector
+    - python-docutils
+    - python-serial
+    - python-matplotlib
+    - python-pyfits
+    - python-lxml
+    - python-ldap
+    - python-crypto
+    - python-keyring
+    - python-keyrings.alt
+    - python-astropy
+    - python-qt4
+    - python-qscintilla2
+    - python-sip-dev
+    - python-qt4-dev
+    - python-pytest
+    - python-pytest-cov
+    - python-mock
+    - python-coverage
+    - python-sphinx
+    - libqwt5-qt4-dev
+    - libtiff5-dev
+    - libcfitsio3-dev
