@@ -2,12 +2,14 @@
 Ansible installer for NICOS. Can also start and stop the NICOS services.
 
 ## Prerequisites
+Works on RedHat and Debian based Linux.
+
 Install the following software:
  - ansible (2.4.0 or higher)
  - git
 
-## Installing NICOS on a VM
-Make sure that the ``hosts`` file points to the IP of the VM where NICOS is to be installed.
+## Installing NICOS on a different machine (not localhost)
+Make sure that the ``hosts`` file points to the IP of the machine where NICOS is to be installed.
 
 The playbook ``install-nicos.yml`` sets up everything including:
  - installing NICOS
@@ -34,7 +36,7 @@ Edit the `install-nicos.yml` file so that the `hosts` setting is `localhost`.
 Then run using:
 
 ```shell
-ansible-playbook install-nicos.yml
+sudo ansible-playbook install-nicos.yml
 ```
 
 ## Start and stop NICOS services
@@ -46,3 +48,4 @@ ansible-playbook -i hosts start_nicos_services.yml    # Start services
 ansible-playbook -i hosts stop_nicos_services.yml    # Stop services
 ansible-playbook -i hosts restart_nicos_services.yml    # Restart services
 ```
+Add `sudo` and remove `-i hosts` if running on a local machine.

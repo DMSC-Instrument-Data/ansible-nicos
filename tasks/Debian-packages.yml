@@ -37,9 +37,6 @@
     - python-mock
     - python-coverage
     - python-sphinx
-    - libqwt5-qt4-dev
-    - libtiff5-dev
-    - libcfitsio3-dev
 
 - name: install general python packages
   become : yes
@@ -63,4 +60,3 @@
     extra_args: "--proxy={{ http_proxy }} --extra-index-url https://forge.frm2.tum.de/simple"
   with_items:
     - nicos-pyctl>=1.0
-    
