@@ -1,0 +1,7 @@
+---
+
+- name: Add nicos-system service
+  become: yes
+  command: update-rc.d {{ item }} defaults
+  with_items:
+    - nicos-system

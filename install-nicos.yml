@@ -13,8 +13,6 @@
     nicos_instrument: "demo"
 
   tasks:
-    - include: "{{ ansible_os_family }}-packages.yml"
-
     - name: cleanup the current src dir
       become: yes
       file:
@@ -29,6 +27,8 @@
         version: '{{ nicos_version }}'
         refspec: '{{ nicos_refspec }}'
         force: yes
+
+    - include: "tasks/{{ ansible_os_family }}-packages.yml"
 
     - name: make sure that the group nicos exists
       become: yes
@@ -81,11 +81,7 @@
         dest: '/etc/init.d/nicos-system'
         state: link
 
-    - name: Add nicos-system service
-      become: yes
-      action: command chkconfig --add {{ item }}
-      with_items:
-        - nicos-system
+    - include: "{{ ansible_os_family }}-install-service.yml"
 
     - name: copy the nicos env file
       become: yes

@@ -1,0 +1,7 @@
+---
+
+- name: Add nicos-system service
+  become: yes
+  action: command chkconfig --add {{ item }}
+  with_items:
+    - nicos-system
