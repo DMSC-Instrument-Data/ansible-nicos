@@ -41,7 +41,7 @@
     - libtiff5-dev
     - libcfitsio3-dev
 
-- name: install python packages
+- name: install general python packages
   become : yes
   pip:
     name: "{{item}}"
@@ -54,3 +54,13 @@
     - kafka-python
     - pyepics
     - flatbuffers
+
+- name: install nicos python packages
+  become : yes
+  pip:
+    name: "{{item}}"
+    state: forcereinstall
+    extra_args: "--proxy={{ http_proxy }} --extra-index-url https://forge.frm2.tum.de/simple"
+  with_items:
+    - nicos-pyctl>=1.0
+    

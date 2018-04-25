@@ -81,7 +81,7 @@
         dest: '/etc/init.d/nicos-system'
         state: link
 
-    - include: "{{ ansible_os_family }}-install-service.yml"
+    - include: "tasks/{{ ansible_os_family }}-install-service.yml"
 
     - name: copy the nicos env file
       become: yes
