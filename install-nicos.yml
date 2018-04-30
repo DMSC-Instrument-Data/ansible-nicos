@@ -30,6 +30,8 @@
 
     - include: "tasks/{{ ansible_os_family }}-packages.yml"
 
+    - include: "tasks/install-python-packages.yml"
+
     - name: make sure that the group nicos exists
       become: yes
       group:
