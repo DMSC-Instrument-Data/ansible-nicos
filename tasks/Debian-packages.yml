@@ -11,52 +11,36 @@
     - python-dev
     - python-pip
     - python-setuptools
-    - python-zmq
-    - python-numpy
-    - python-scipy
-    - python-psutil
-    - python-rsa
     - gnuplot
     - python-mysql.connector
-    - python-docutils
-    - python-serial
-    - python-matplotlib
-    - python-pyfits
-    - python-lxml
-    - python-ldap
-    - python-crypto
-    - python-keyring
-    - python-keyrings.alt
-    - python-astropy
     - python-qt4
     - python-qscintilla2
     - python-sip-dev
     - python-qt4-dev
-    - python-pytest
-    - python-pytest-cov
-    - python-mock
-    - python-coverage
-    - python-sphinx
 
 - name: install general python packages
   become : yes
   pip:
     name: "{{item}}"
     state: forcereinstall
-    extra_args: "--proxy={{ http_proxy }}"
+    extra_args: "--proxy={{ http_proxy }} --ignore-installed"
   with_items:
     - pip
     - setuptools
-    - numpy
     - kafka-python
     - pyepics
     - flatbuffers
 
-- name: install nicos python packages
-  become : yes
+- name: install python requirements
+  become: yes
   pip:
-    name: "{{item}}"
-    state: forcereinstall
-    extra_args: "--proxy={{ http_proxy }} --extra-index-url https://forge.frm2.tum.de/simple"
-  with_items:
-    - nicos-pyctl>=1.0
+    state: latest
+    requirements: '{{ nicos_src_dir }}/requirements.txt'
+    extra_args: "--proxy={{ http_proxy }} --ignore-installed"
+
+- name: install python dev requirements
+  become: yes
+  pip:
+    state: latest
+    requirements: '{{ nicos_src_dir }}/requirements-dev.txt'
+    extra_args: "--proxy={{ http_proxy }} --ignore-installed"
