@@ -14,6 +14,7 @@ By default the ansible script will set NICOS to use the demo instrument. This ca
 ...
 nicos_facility: "nicos_ess"
 nicos_instrument: "essiip"
+...
 ```
 These settings can be changed post-installation by editing the `nicos.conf` file in `/opt/nicos`.
 
