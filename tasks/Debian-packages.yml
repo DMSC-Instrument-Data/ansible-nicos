@@ -1,0 +1,19 @@
+# Based on informationfrom https://forge.frm2.tum.de/nicos/doc/nicos-master/install/
+---
+
+- name: be sure required packages are installed
+  become: yes
+  apt:
+    name: '{{item}}'
+    state: latest
+  with_items:
+    - python
+    - python-dev
+    - python-pip
+    - python-setuptools
+    - gnuplot
+    - python-mysql.connector
+    - python-qt4
+    - python-qscintilla2
+    - python-sip-dev
+    - python-qt4-dev

@@ -1,0 +1,17 @@
+---
+
+- name: be sure required packages are installed
+  become: yes
+  yum:
+     name: '{{item}}'
+     state: latest
+  with_items:
+     - python
+     - python-devel
+     - python-setuptools
+     - python-pip
+     - sip
+     - sip-devel
+     - qt
+     - qt-devel
+     - PyQt4
