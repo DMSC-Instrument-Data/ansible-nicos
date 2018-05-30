@@ -9,11 +9,11 @@
     nicos_src_dir: "/opt/nicos-core"
     nicos_inst_dir: "/opt/nicos"
     nicos_data_dir: "/opt/nicos-data"
-    nicos_facility: "nicos_demo"
-    nicos_instrument: "demo"
+    nicos_facility: "{{ facility | default('demo') }}"
+    nicos_instrument: "{{ instrument | default('demo') }}"
 
   tasks:
-    - include: "tasks/download-nicos.yml"    
+    - include: "tasks/download-nicos.yml"
 
     - include: "tasks/{{ ansible_os_family }}-packages.yml"
 
