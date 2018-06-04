@@ -19,10 +19,3 @@
     state: latest
     requirements: '{{ nicos_src_dir }}/requirements.txt'
     extra_args: "--proxy={{ http_proxy }} --ignore-installed"
-
-- name: install python dev requirements
-  become: yes
-  pip:
-    state: latest
-    requirements: '{{ nicos_src_dir }}/requirements-dev.txt'
-    extra_args: "--proxy={{ http_proxy }} --ignore-installed"
