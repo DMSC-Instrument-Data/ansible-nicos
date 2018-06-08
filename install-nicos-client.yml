@@ -1,0 +1,18 @@
+---
+
+- hosts: "{{ host | default('localhost') }}"
+
+  tasks:
+    - include: "tasks/download-nicos.yml"
+
+    - include: "tasks/{{ ansible_os_family }}-packages.yml"
+
+    - include: "tasks/install-python-packages.yml"
+
+    - name: create a link for nicos-gui
+      become: yes
+      file:
+        src: "{{ nicos_src_dir }}/bin/nicos-gui"
+        dest: /usr/local/bin/nicos-gui
+        state: link
+        force: yes

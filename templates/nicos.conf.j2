@@ -4,8 +4,8 @@ group=nicos
 services=cache,poller,daemon
 pid_path={{nicos_data_dir}}/pid
 logging_path={{nicos_data_dir}}/log
-setup_package={{nicos_facility}}
+setup_package=nicos_{{nicos_facility}}
 instrument={{nicos_instrument}}
 
 [environment]
-INSTRUMENT={{nicos_facility}}.{{nicos_instrument}}
+INSTRUMENT=nicos_{{nicos_facility}}.{{nicos_instrument}}
