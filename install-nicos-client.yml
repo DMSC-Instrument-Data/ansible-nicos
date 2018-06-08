@@ -1,14 +1,6 @@
 ---
 
 - hosts: "{{ host | default('localhost') }}"
-  vars:
-    http_proxy: ""
-    nicos_repo: "https://forge.frm2.tum.de/review/frm2/nicos/nicos-core"
-    nicos_version: "HEAD"
-    nicos_refspec: "HEAD"
-    nicos_src_dir: "/opt/nicos-core"
-    nicos_facility: "{{ facility | default('nicos_demo') }}"
-    nicos_instrument: "{{ instrument | default('demo') }}"
 
   tasks:
     - include: "tasks/download-nicos.yml"
