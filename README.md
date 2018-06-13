@@ -34,7 +34,7 @@ sudo ansible-playbook install-nicos.yml
 By default the ansible script will set NICOS to use the demo instrument. This can be changed by supplying additional command line arguments, for example:
 
 ```shell
-sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=essiip
+sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=essiip -e username=nicosuser -e usergroup=nicosuser
 ```
 or:
 

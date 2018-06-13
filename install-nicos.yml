@@ -18,9 +18,9 @@
     - name: make sure that the user nicos exists
       become: yes
       user:
-        name: nicos
+        name: '{{ nicos_username }}'
         uid: 1040
-        group: nicos
+        group: '{{ nicos_usergroup }}'
 
     - name: install nicos
       become: yes
@@ -35,8 +35,8 @@
       file:
         path: '{{ nicos_data_dir }}'
         state: directory
-        owner: nicos
-        group: nicos
+        owner: '{{ nicos_username }}'
+        group: '{{ nicos_usergroup }}'
         mode: 0755
 
     - name: copy the nicos.conf file
@@ -46,12 +46,12 @@
         dest: '{{ nicos_inst_dir }}/nicos.conf'
         force: yes
 
-    - name: make sure that user nicos owns the nicos installation dir
+    - name: make sure that correct user owns the nicos installation dir
       become: yes
       file:
         path: '{{ nicos_inst_dir }}'
-        owner: nicos
-        group: nicos
+        owner: '{{ nicos_username }}'
+        group: '{{ nicos_usergroup }}'
 
     - name: make sure that the service file is installed
       become: yes
