@@ -9,17 +9,16 @@
 
     - include: "tasks/install-python-packages.yml"
 
-    - name: make sure that the group nicos exists
+    - name: make sure that the group exists
       become: yes
       group:
-        name: nicos
+        name: '{{ nicos_usergroup }}'
         state: present
 
-    - name: make sure that the user nicos exists
+    - name: make sure that the user exists
       become: yes
       user:
         name: '{{ nicos_username }}'
-        uid: 1040
         group: '{{ nicos_usergroup }}'
 
     - name: install nicos
