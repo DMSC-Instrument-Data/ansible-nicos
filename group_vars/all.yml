@@ -7,4 +7,5 @@
     nicos_data_dir: "/opt/nicos-data"
     nicos_facility: "{{ facility | default('demo') }}"
     nicos_instrument: "{{ instrument | default('demo') }}"
-    
+    nicos_username: "{{ username | default('nicos') }}"
+    nicos_usergroup: "{{ usergroup | default('nicos') }}"
