@@ -65,8 +65,12 @@ add ``-c paramiko`` to the previous command.
 The playbooks ``start_nicos_services.yml``, ``stop_nicos_services.yml`` and ``restart_nicos_services.yml`` can be used to start, stop and restart the NICOS services.
 
 ```shell
-ansible-playbook -i hosts start_nicos_services.yml    # Start services
-ansible-playbook -i hosts stop_nicos_services.yml    # Stop services
-ansible-playbook -i hosts restart_nicos_services.yml    # Restart services
+sudo ansible-playbook start_nicos_services.yml    # Start services
+sudo ansible-playbook stop_nicos_services.yml    # Stop services
+sudo ansible-playbook restart_nicos_services.yml    # Restart services
 ```
-Add `sudo` and remove `-i hosts` if running on a local machine.
+Add `-i hosts` if running on a different machine, for example:
+
+```shell
+sudo ansible-playbook -i hosts start_nicos_services.yml
+```
