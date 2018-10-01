@@ -31,18 +31,39 @@ To install run:
 sudo ansible-playbook install-nicos.yml
 ```
 
-By default the ansible script will set NICOS to use the demo instrument. This can be changed by supplying additional command line arguments, for example:
+By default the ansible script will set NICOS to use the demo instrument.
+This and other install details can be changed by supplying additional command line arguments:
 
 ```shell
-sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=essiip -e username=nicosuser -e usergroup=nicosuser
+facilty - specify the overall facility (e.g. ess, sinq, demo etc.)
+instrument - specify the instrument at the nicos_facility (e.g. amor, cspec etc.)
+username - the UN*X user to install nicos as
+usergroup - the UN*X group to install nicos as
+host - the machine to install on (default is localhost)
+download - 'yes' will download NICOS from the ESS staging area rather than cloning it from Gerrit
 ```
-or:
+
+#### Examples
+
+Install as a specific instrument:
 
 ```shell
 sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=v20
 ```
 
-These settings can be changed post-installation by editing the `nicos.conf` file in `/opt/nicos`.
+Install as a specific instrument and user:
+
+```shell
+sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=essiip -e username=nicos_user -e usergroup=nicos_user
+```
+
+Note: facility and instrument settings can be changed post-installation by editing the `nicos.conf` file in `/opt/nicos`.
+
+Install from the ESS staging area:
+
+```shell
+sudo ansible-playbook install-nicos.yml -e facility=ess -e instrument=essiip -e download=yes
+```
 
 ### Installing NICOS on a different machine (not localhost)
 Make sure that the ``hosts`` file points to the IP of the machine where NICOS is to be installed.
