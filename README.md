@@ -37,9 +37,9 @@ This and other install details can be changed by supplying additional command li
 ```shell
 facilty - specify the overall facility (e.g. ess, sinq, demo etc.)
 instrument - specify the instrument at the nicos_facility (e.g. amor, cspec etc.)
-username - the UN*X user to install nicos as
-usergroup - the UN*X group to install nicos as
-host - the machine to install on (default is localhost)
+username - the un*x user to install nicos as
+usergroup - the un*x group to install nicos as
+variable_host - the machine to install on (default is localhost). Must be defined in the hosts file
 download - 'yes' will download NICOS from the ESS staging area rather than cloning it from Gerrit
 ```
 
