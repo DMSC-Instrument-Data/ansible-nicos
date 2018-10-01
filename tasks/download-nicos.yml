@@ -6,7 +6,7 @@
     path: '{{nicos_src_dir}}'
     state: absent
 
-- name: make sure nicos is checked out
+- name: clone nicos
   become: yes
   git:
     repo: '{{ nicos_repo }}'
@@ -14,3 +14,13 @@
     version: '{{ nicos_version }}'
     refspec: '{{ nicos_refspec }}'
     force: yes
+  when: nicos_download == 'no'
+
+- name: download nicos
+  become: yes
+  unarchive:
+    src: "http://project.esss.dk/owncloud/index.php/s/ClJ6YpCjH1IIiAr/download"
+    dest: '/opt'
+    force: yes
+    remote_src: yes
+  when: nicos_download == 'yes'
