@@ -9,3 +9,5 @@
     nicos_instrument: "{{ instrument | default('demo') }}"
     nicos_username: "{{ username | default('nicos') }}"
     nicos_usergroup: "{{ usergroup | default('nicos') }}"
+    nicos_download: "{{ download | default('no') }}"
+    nicos_download_link: "http://project.esss.dk/owncloud/index.php/s/ClJ6YpCjH1IIiAr/download"
