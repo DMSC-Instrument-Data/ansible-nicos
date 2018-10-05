@@ -28,7 +28,7 @@ ansible-playbook install-nicos-client.yml
 This is for setting up a NICOS server machine (i.e. an instrument machine).
 
 ### Installing locally
-The anisble script will install on localhost by default.
+The ansible script will install on localhost by default.
 
 To install run:
 
