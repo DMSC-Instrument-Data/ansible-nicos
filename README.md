@@ -7,6 +7,11 @@ Works on RedHat-based and Debian-based Linux versions.
 Install the following software:
  - ansible (2.4.0 or higher)
  - git
+ 
+Non-EEE Centos 7 also requires the EPEL Repository:
+```shell
+sudo yum install epel-release
+```
 
 Note: sometimes the Ansible scripts exit with a segmentation fault - this can be ignored.
 
