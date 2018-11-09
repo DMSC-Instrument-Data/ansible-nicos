@@ -12,6 +12,7 @@
     - kafka-python
     - pyepics
     - flatbuffers
+    - gr
 
 - name: install python requirements
   become: yes
